@@ -1,73 +1,46 @@
-export class Character {
-  constructor(name, charClass, stats) {
-    this.name = name;
-    this.charClass = charClass;
-    this.stats = stats;
-    this.level = 1;
-    this.inventory = [];
-    this.equipped = [];  
-  }
+import { Character } from "./Character";
+import { Weapon } from "./Weapon";
+import { Monster, Slug } from "./Monster";
 
-  addItem(item) {
-    this.inventory.push(item);
+export class Game {
+  constructor (character) {
+    this.character = character;
   }
-
-  dropItem(item) {
-    const droppedItem = this.inventory.indexOf(item);
-    if (droppedItem >= 0) {
-    this.inventory.splice(droppedItem, 1);
+  giveCharacterStartingWeapon() {
+    if(this.character.charClass === "Fighter"){
+      let shovel = new Weapon("Shovel", 5, 0);
+      this.character.addItem(shovel);
+      this.character.equipWeapon(shovel);
+    } else if (this.character.charClass === "Wizard") {
+      let wateringCan = new Weapon("Watering Can", 0, 5);
+      this.character.addItem(wateringCan);
+      this.character.equipWeapon(wateringCan);
+    } else if (this.character.charClass === "Rogue") {
+      let spade = new Weapon("Spade", 3, 3);
+      this.character.addItem(spade);
+      this.character.equipWeapon(spade);
     }
   }
 
-  equipWeapon(weapon) {
-    this.equipped.push(weapon);
-    this.stats.strength += weapon.strength;
-    this.stats.magic += weapon.magic;
+  battleMonster(monster) {
+    if ((this.character.strength + this.character.magic) < monster.powerLevel) {
+      this.character.loseHealth(monster.powerLevel - (this.character.strength + this.character.magic));
+      if(this.character.health <= 0) {
+        console.log("YOU LOST!");
+      }
+    } else if ((this.character.strength + this.character.magic) >= monster.powerLevel) {
+      this.character.experience += monster.experienceAmount;
+      this.levelUp();
+    } 
   } 
 
-};
-
-export class Fighter {
-  constructor() {
-    this.name = "Fighter";
-    this.stats = {
-      strength: 5,
-      magic: 1
-    };
-    this.equipped = {
-      shovel: [2, 0]
+  levelUp() {
+    if (this.character.experience >= (10 * this.character.level)) {
+      this.character.level +=1;
+      this.character.strength +=2;
+      this.character.magic +=2;
+      this.character.experience = 0;
     }
-  };
-};
-
-export class Wizard {
-  constructor() {
-    this.name = "Wizard";
-    this.stats = {
-      strength: 1,
-      magic: 5
-    };
   }
+
 };
-
-export class Rogue{
-  constructor() {
-    this.name = "Rogue";
-    this.stats = {
-      strength: 3,
-      magic: 3
-    };
-    this.equipped = [{
-      spade: [1, 1]
-    }]
-  }
-};
-
-export class Weapon {
-  constructor(name, strength, magic) {
-    this.name = name;
-    this.strength = strength;
-    this.magic = magic;
-  }
-}
-

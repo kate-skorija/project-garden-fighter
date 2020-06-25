@@ -5,7 +5,7 @@
 #### By **Sara Kane, Kate Skorija, James Henager**
 
 ## Description
-This project is a fake website for a pizza company. It allows a user to select a pizza size and toppings and then order the pizza to see the final price.
+This is a garden themed text based rpg.
 
 ## Specifications
 
@@ -86,7 +86,7 @@ This project is a fake website for a pizza company. It allows a user to select a
   - Input: Player defeats dragon.
   - Output: You've won! Game over.
 
-  * _The program should let players lose if they are defeated by a monster._
+* _The program should let players lose if they are defeated by a monster._
   - Input: Goblin wins battle.
   - Output: You've lost! Game over.
 
